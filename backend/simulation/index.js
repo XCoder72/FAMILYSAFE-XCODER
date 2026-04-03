@@ -1,21 +1,18 @@
+const startGeneralSimulation = require('./generalSimulation');
+const triggerFall = require('./fallSimulation');
+const triggerSOS = require('./sosSimulation');
 const User = require('../models/User');
-const getFallData = require('./fallSimulation');
-const getSOSData = require('./sosSimulation');
-const getVitalData = require('./vitalSimulation');
 
-const runSimulation = async (phone, type) => {
-    let updatePayload;
-
-    if (type === 'FALL') updatePayload = getFallData();
-    else if (type === 'SOS') updatePayload = getSOSData();
-    else if (type === 'CRITICAL') updatePayload = getVitalData('CRITICAL');
-    else updatePayload = getVitalData('NORMAL');
-
+const runScenario = async (phone, type) => {
+    if (type === 'FALL') return await triggerFall(phone);
+    if (type === 'SOS') return await triggerSOS(phone);
+    
+    // Reset to Normal
     return await User.findOneAndUpdate(
         { phone },
-        { $set: updatePayload },
+        { $set: { status: 'Online', 'vitals.heartRate': 72, 'vitals.spo2': 98 } },
         { returnDocument: 'after' }
     );
 };
 
-module.exports = { runSimulation };
+module.exports = { startGeneralSimulation, runScenario };
