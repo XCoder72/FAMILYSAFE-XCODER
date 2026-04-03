@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Adding custom animations to the theme for cleaner JSX */
+  --animate-blob: blob 12s infinite alternate ease-in-out;
+  --animate-cinematic-entry: cinematicEntry 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@layer utilities {
+  /* 🎬 The "Movie Theater" Vignette */
+  .bg-radial-vignette {
+    background: radial-gradient(circle, transparent 30%, rgba(2, 6, 23, 0.9) 100%);
+  }
+
+  /* ✨ Glassmorphism Effect for the Login Card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* 🌌 Atmospheric Glows */
+  .bg-blue-glow {
+    background: radial-gradient(circle at center, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+  }
+}
+
+/* --- ANIMATION KEYFRAMES --- */
+
+/* The 'Floating Camera' Entry */
+@keyframes cinematicEntry {
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.96); 
+    filter: blur(12px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    filter: blur(0); 
+  }
+}
+
+/* Floating Background Orbs */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(40px, -60px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+/* --- STAGGERED DELAYS (Standard CSS) --- */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
