@@ -8,19 +8,20 @@ const multer = require('multer');
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
+// 🛡️ MODELS & SIMULATION IMPORTS
 const User = require('./models/User');
-const { startGeneralSimulation } = require('./simulator');
+const { startGeneralSimulation, runScenario } = require('./simulation/index'); // ✅ Using the new modular folder
 
 const app = express();
 
 // ---------------------------------------------------------
-// 🛠️ MIDDLEWARE & CORS (Fixed for File Uploads)
+// 🛠️ MIDDLEWARE & CORS
 // ---------------------------------------------------------
 app.use(cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"] // Essential for Multer
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json()); 
 
@@ -48,13 +49,14 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // ---------------------------------------------------------
-// 🟢 DATABASE CONNECTION
+// 🟢 DATABASE CONNECTION & SIMULATION START
 // ---------------------------------------------------------
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/familysafe';
 
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('🟢 MongoDB Connected Successfully!');
+        // 🚀 Start the background simulation heartbeat immediately on DB connect
         startGeneralSimulation(); 
     })
     .catch(err => console.log('🔴 MongoDB Connection Error:', err));
@@ -69,32 +71,17 @@ app.post('/api/login', async (req, res) => {
         const { phone } = req.body;
         if (!phone) return res.status(400).json({ success: false, message: "Phone is required" });
 
-        // ✨ Generate OTP first
         const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-        
-        // ✨ Find user OR Create them if they don't exist (Upsert)
         let user = await User.findOne({ phone });
         
         if (!user) {
             console.log(`🆕 Registering new user: ${phone}`);
-            user = await User.create({ 
-                phone, 
-                role: 'Member', // Default role
-                status: 'Online' 
-            });
+            user = await User.create({ phone, role: 'Member', status: 'Online' });
         }
 
-        // ✨ SUCCESS: Now both new and old users will trigger this
         console.log(`✨ SUCCESS: OTP for ${phone} is [ ${generatedOtp} ]`);
-        
-        res.json({ 
-            success: true, 
-            otp: generatedOtp, 
-            user: user // This now contains the newly created user object
-        });
-
+        res.json({ success: true, otp: generatedOtp, user });
     } catch (error) {
-        console.error("❌ Login Error:", error);
         res.status(500).json({ success: false, error: "Internal Server Error" });
     }
 });
@@ -107,7 +94,7 @@ app.post('/api/create-network', async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
       { phone },
       { $set: { familyCode: newFamilyCode, role: 'Admin' } },
-      { new: true }
+      { returnDocument: 'after' }
     );
     res.status(200).json({ success: true, familyCode: newFamilyCode, user: updatedUser });
   } catch (error) {
@@ -125,7 +112,7 @@ app.post('/api/join-network', async (req, res) => {
         const updatedUser = await User.findOneAndUpdate(
             { phone }, 
             { $set: { role: 'Member', familyCode, isSetupComplete: false } }, 
-            { new: true }
+            { returnDocument: 'after' }
         );
         res.json({ success: true, user: updatedUser });
     } catch (error) {
@@ -133,12 +120,11 @@ app.post('/api/join-network', async (req, res) => {
     }
 });
 
-// 4. ✨ FIXED: Upload Medical Report (Ensuring State Updates)
+// 4. Upload Medical Report
 app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) => {
   try {
     const { phone } = req.params;
     const { reportName, doctorName, category } = req.body;
-
     if (!req.file) return res.status(400).json({ success: false, message: "No file uploaded" });
 
     const newReport = {
@@ -149,34 +135,33 @@ app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) 
       date: new Date()
     };
 
-    // Use { new: true } so the response contains the updated reports list immediately
-const user = await User.findOneAndUpdate(
-  { phone: phone },
-  { $push: { medicalReports: newReport } },
-  { 
-    returnDocument: 'after', // ✅ This replaces 'new: true' and stops the warning
-    runValidators: true 
-  } 
-);
-
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    const user = await User.findOneAndUpdate(
+      { phone: phone },
+      { $push: { medicalReports: newReport } },
+      { returnDocument: 'after', runValidators: true } 
+    );
 
     console.log(`✅ [MEDICAL VAULT] Report added for ${phone}`);
     res.json({ success: true, user });
   } catch (error) {
-    console.error("🔴 Upload Error:", error);
     res.status(500).json({ success: false, message: "Server error during upload" });
   }
 });
 
-// 5. Simulate Alert
-app.post('/api/simulate-alert', async (req, res) => {
+// 5. Emergency Simulation Trigger (The Panel Route)
+app.put('/api/simulate/:phone', async (req, res) => {
     try {
-        const { userId, status } = req.body;
-        const user = await User.findByIdAndUpdate(userId, { status }, { new: true });
-        res.json({ success: true, message: `Status updated to ${status}`, user });
-    } catch (error) {
-        res.status(500).json({ success: false });
+        const { type } = req.body;
+        const { phone } = req.params;
+        const updatedUser = await runScenario(phone, type);
+        
+        if (updatedUser) {
+            res.json({ success: true, user: updatedUser });
+        } else {
+            res.status(404).json({ success: false, message: "User not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
     }
 });
 
