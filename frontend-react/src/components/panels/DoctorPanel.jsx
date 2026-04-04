@@ -155,7 +155,7 @@ export default function DoctorPanel({ memberData }) {
                  <h4 className="font-black text-slate-800 dark:text-white text-lg leading-tight mb-1 truncate">{report.reportName}</h4>
                  <p className="text-xs font-bold text-teal-600 dark:text-teal-400 mb-4">{new Date(report.date).toLocaleDateString()}</p>
                  <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-700">
-                    <span className="text-[10px] font-black text-slate-400 uppercase truncate max-w-[100px]">{report.doctorName}</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase truncate max-w-25">{report.doctorName}</span>
                     <div className="flex gap-2">
                        <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 group-hover:bg-teal-500 group-hover:text-white transition-colors">
                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
@@ -169,7 +169,7 @@ export default function DoctorPanel({ memberData }) {
               </div>
             )}
 
-            <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 p-6 rounded-[2rem] flex flex-col items-center justify-center text-center group hover:border-teal-400 transition-colors">
+            <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 p-6 rounded-4xl flex flex-col items-center justify-center text-center group hover:border-teal-400 transition-colors">
                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-3 group-hover:text-teal-500 transition-colors">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                </div>

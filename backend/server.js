@@ -10,13 +10,11 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // 🛡️ MODELS & SIMULATION IMPORTS
 const User = require('./models/User');
-const { startGeneralSimulation, runScenario } = require('./simulation/index'); // ✅ Using the new modular folder
+const { startGeneralSimulation, runScenario } = require('./simulation/index');
 
 const app = express();
 
-// ---------------------------------------------------------
-// 🛠️ MIDDLEWARE & CORS
-// ---------------------------------------------------------
+// 🛠️ MIDDLEWARE
 app.use(cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -30,9 +28,7 @@ const io = new Server(server, {
     cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] }
 });
 
-// ---------------------------------------------------------
-// 🛡️ CLOUDINARY & MULTER SETUP
-// ---------------------------------------------------------
+// 🛡️ CLOUDINARY SETUP
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_KEY,
@@ -49,19 +45,6 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // ---------------------------------------------------------
-// 🟢 DATABASE CONNECTION & SIMULATION START
-// ---------------------------------------------------------
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/familysafe';
-
-mongoose.connect(MONGO_URI)
-    .then(() => {
-        console.log('🟢 MongoDB Connected Successfully!');
-        // 🚀 Start the background simulation heartbeat immediately on DB connect
-        startGeneralSimulation(); 
-    })
-    .catch(err => console.log('🔴 MongoDB Connection Error:', err));
-
-// ---------------------------------------------------------
 // 📑 ROUTES
 // ---------------------------------------------------------
 
@@ -70,16 +53,11 @@ app.post('/api/login', async (req, res) => {
     try {
         const { phone } = req.body;
         if (!phone) return res.status(400).json({ success: false, message: "Phone is required" });
-
         const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
         let user = await User.findOne({ phone });
-        
         if (!user) {
-            console.log(`🆕 Registering new user: ${phone}`);
             user = await User.create({ phone, role: 'Member', status: 'Online' });
         }
-
-        console.log(`✨ SUCCESS: OTP for ${phone} is [ ${generatedOtp} ]`);
         res.json({ success: true, otp: generatedOtp, user });
     } catch (error) {
         res.status(500).json({ success: false, error: "Internal Server Error" });
@@ -108,7 +86,6 @@ app.post('/api/join-network', async (req, res) => {
         const { phone, familyCode } = req.body;
         const adminExists = await User.findOne({ familyCode, role: 'Admin' });
         if (!adminExists) return res.status(404).json({ success: false, message: "Invalid Invite Code!" });
-
         const updatedUser = await User.findOneAndUpdate(
             { phone }, 
             { $set: { role: 'Member', familyCode, isSetupComplete: false } }, 
@@ -125,8 +102,6 @@ app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) 
   try {
     const { phone } = req.params;
     const { reportName, doctorName, category } = req.body;
-    if (!req.file) return res.status(400).json({ success: false, message: "No file uploaded" });
-
     const newReport = {
       reportName: reportName || "New Report",
       doctorName: doctorName || "General Physician",
@@ -134,28 +109,31 @@ app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) 
       fileUrl: req.file.path, 
       date: new Date()
     };
-
     const user = await User.findOneAndUpdate(
       { phone: phone },
       { $push: { medicalReports: newReport } },
       { returnDocument: 'after', runValidators: true } 
     );
-
-    console.log(`✅ [MEDICAL VAULT] Report added for ${phone}`);
     res.json({ success: true, user });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error during upload" });
   }
 });
 
-// 5. Emergency Simulation Trigger (The Panel Route)
+// 5. Emergency & Disconnect Simulation Trigger
 app.put('/api/simulate/:phone', async (req, res) => {
     try {
-        const { type } = req.body;
+        const { type } = req.body; // 'FALL', 'SOS', or 'DISCONNECT'
         const { phone } = req.params;
+        
+        // ✨ runScenario handles the database update logic
         const updatedUser = await runScenario(phone, type);
         
         if (updatedUser) {
+            // If it's a disconnect, broadcast to sockets that hardware is down
+            if (type === 'DISCONNECT') {
+                io.emit('hardware_status', { phone, status: 'Offline' });
+            }
             res.json({ success: true, user: updatedUser });
         } else {
             res.status(404).json({ success: false, message: "User not found" });
@@ -177,15 +155,34 @@ app.get('/api/family-members/:familyCode', async (req, res) => {
 });
 
 // ---------------------------------------------------------
-// 📡 WEBSOCKETS & SERVER START
+// 📡 SERVER STARTUP (Async Wrapper Fixes the SyntaxError)
 // ---------------------------------------------------------
-io.on('connection', (socket) => {
-    socket.on('send_message', (data) => {
-        socket.broadcast.emit('receive_message', data); 
-    });
-});
+const startApp = async () => {
+    try {
+        const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/familysafe';
+        
+        // Wait for DB before starting anything else
+        await mongoose.connect(MONGO_URI);
+        console.log('🟢 MongoDB Connected Successfully!');
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`🚀 Premium Backend Engine running on http://localhost:${PORT}`);
-});
+        // Start background simulation
+        startGeneralSimulation(); 
+
+        const PORT = process.env.PORT || 5000;
+        server.listen(PORT, () => {
+            console.log(`🚀 Premium Backend Engine running on http://localhost:${PORT}`);
+        });
+
+        io.on('connection', (socket) => {
+            socket.on('send_message', (data) => {
+                socket.broadcast.emit('receive_message', data); 
+            });
+        });
+
+    } catch (error) {
+        console.error('🔴 Critical Startup Error:', error);
+        process.exit(1);
+    }
+};
+
+startApp();

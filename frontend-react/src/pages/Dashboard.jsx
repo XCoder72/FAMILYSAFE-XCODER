@@ -107,9 +107,9 @@ export default function Dashboard() {
     <div className="min-h-screen flex font-sans bg-slate-50 dark:bg-[#0B1120] relative overflow-hidden transition-colors duration-500">
       
       {/* Background Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-cyan-300 dark:bg-cyan-900/30 rounded-full mix-blend-multiply filter blur-[120px] opacity-40 z-0 pointer-events-none transition-colors duration-700"></div>
-      <div className="absolute top-[10%] right-[-5%] w-[35rem] h-[35rem] bg-blue-300 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-[120px] opacity-40 z-0 pointer-events-none transition-colors duration-700"></div>
-      <div className="absolute bottom-[-10%] left-[20%] w-[40rem] h-[40rem] bg-emerald-200 dark:bg-emerald-900/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 z-0 pointer-events-none transition-colors duration-700"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-160 h-160 bg-cyan-300 dark:bg-cyan-900/30 rounded-full mix-blend-multiply filter blur-[120px] opacity-40 z-0 pointer-events-none transition-colors duration-700"></div>
+      <div className="absolute top-[10%] right-[-5%] w-140 h-140 bg-blue-300 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-[120px] opacity-40 z-0 pointer-events-none transition-colors duration-700"></div>
+      <div className="absolute bottom-[-10%] left-[20%] w-160 h-160 bg-emerald-200 dark:bg-emerald-900/20 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 z-0 pointer-events-none transition-colors duration-700"></div>
 
       <div className="flex w-full h-full relative z-10">
         
@@ -186,7 +186,7 @@ export default function Dashboard() {
                   {isDarkMode ? <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> : <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>}
                 </button>
 
-                <div className="relative shrink-0 z-[60]">
+                <div className="relative shrink-0 z-60">
                   <button onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} className={`w-10 h-10 rounded-full border shadow-sm flex items-center justify-center backdrop-blur-md ${isNotificationsOpen ? 'bg-white dark:bg-slate-800 text-blue-500' : 'bg-white/60 dark:bg-slate-800/80 text-slate-500'}`}>
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                     {notifications.some(n => !n.read) && <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full animate-pulse"></span>}
@@ -194,7 +194,7 @@ export default function Dashboard() {
                   {isNotificationsOpen && (
                     <div className="absolute right-0 mt-4 w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-100 rounded-3xl shadow-2xl z-50 p-4 animate-fade-in-up">
                       <h3 className="font-black text-slate-800 dark:text-white text-sm uppercase mb-3 px-2">Notifications</h3>
-                      <div className="max-h-[300px] overflow-y-auto space-y-2">
+                      <div className="max-h-75 overflow-y-auto space-y-2">
                         {notifications.map(note => (
                           <div key={note.id} className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700">
                             <p className="text-xs font-bold text-slate-800 dark:text-white">{note.title}</p>
@@ -207,11 +207,11 @@ export default function Dashboard() {
                 </div>
 
                 <div className="relative shrink-0">
-                  <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 border-2 border-white dark:border-slate-800 shadow-md flex items-center justify-center text-white font-black text-lg transition-transform hover:scale-105">
+                  <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="w-11 h-11 rounded-full bg-linear-to-tr from-cyan-400 to-blue-500 border-2 border-white dark:border-slate-800 shadow-md flex items-center justify-center text-white font-black text-lg transition-transform hover:scale-105">
                     {initial}
                   </button>
                   {isProfileOpen && (
-                    <div className="absolute right-0 mt-4 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-100 rounded-[1.5rem] shadow-2xl z-50 py-3 animate-fade-in-up text-center">
+                    <div className="absolute right-0 mt-4 w-64 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-100 rounded-3xl shadow-2xl z-50 py-3 animate-fade-in-up text-center">
                       <div className="px-5 pb-3 border-b mb-2">
                         <p className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide">{adminData.name}</p>
                         <p className="text-[10px] text-blue-500 font-bold uppercase tracking-widest">{userRole} MODE</p>
@@ -244,8 +244,14 @@ export default function Dashboard() {
 
             {userRole === 'Admin' && activeMenu === 'Admin' && (
               <>
-                {activeTab === 'Overview' && <AdminOverviewPanel />}
-                {activeTab === 'Health' && <AdminHealthPanel />}
+                {activeTab === 'Overview' && (
+            <AdminOverviewPanel
+            liveMemberData={liveMemberData} 
+             isTestMode={isTestMode} />)}
+                {activeTab === 'Health' && (
+            <AdminHealthPanel 
+             liveMemberData={liveMemberData} 
+             isTestMode={isTestMode} />)}
                 {activeTab === 'Tracking' && <AdminTrackingPanel />}
               </>
             )}
@@ -254,8 +260,15 @@ export default function Dashboard() {
                userRole === 'Admin' ? (
                   selectedMember ? (
                     <>
-                      {activeTab === 'Overview' && <MemberOverviewPanel memberData={selectedMember} onBack={() => setSelectedMember(null)} />}
-                      {activeTab === 'Health' && <MemberHealthPanel memberData={selectedMember} />}
+                      {activeTab === 'Overview' && (
+            <MemberOverviewPanel 
+             memberData={selectedMember} 
+             isTestMode={isTestMode} // 👈 Add this so the Admin sees the Member's simulation
+             onBack={() => setSelectedMember(null)} /> )}
+                      {activeTab === 'Health' && (
+            <MemberHealthPanel 
+             memberData={selectedMember} 
+             onBack={() => setSelectedMember(null)} /> )}
                       {activeTab === 'Tracking' && <MemberTrackingPanel memberData={selectedMember} />}
                     </>
                   ) : (
@@ -271,7 +284,7 @@ export default function Dashboard() {
             )}
             {activeMenu === 'Doctor' && <DoctorPanel />}
             {activeMenu === 'Live Chat' && (
-              <div className="animate-fade-in-up h-full flex flex-col max-w-[1200px] mx-auto bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] border border-white dark:border-slate-800 shadow-2xl overflow-hidden">
+              <div className="animate-fade-in-up h-full flex flex-col max-w-300 mx-auto bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] border border-white dark:border-slate-800 shadow-2xl overflow-hidden">
                 <LiveChat />
               </div>
             )}
