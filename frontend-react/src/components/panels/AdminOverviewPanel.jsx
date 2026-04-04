@@ -55,7 +55,7 @@ export default function AdminOverviewPanel() {
     <div className="animate-fade-in-up space-y-8">
       
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-cyan-900 to-blue-900 rounded-[2rem] p-8 relative overflow-hidden shadow-2xl border border-cyan-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-linear-to-r from-slate-900 via-cyan-900 to-blue-900 rounded-4xl p-8 relative overflow-hidden shadow-2xl border border-cyan-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/20 rounded-full mix-blend-overlay filter blur-[80px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDQwIEwgNDAgNDAgNDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]"></div>
 
@@ -87,7 +87,7 @@ export default function AdminOverviewPanel() {
         {/* Device Cards Section */}
         <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none hover:-translate-y-1 transition-all duration-300 group">
+          <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none hover:-translate-y-1 transition-all duration-300 group">
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-[1.25rem] bg-blue-50 dark:bg-blue-500/10 text-blue-500 dark:text-blue-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
@@ -116,8 +116,8 @@ export default function AdminOverviewPanel() {
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-rose-50/50 dark:to-rose-900/10 pointer-events-none"></div>
+          <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden">
+            <div className="absolute inset-0 bg-linear-to-b from-transparent to-rose-50/50 dark:to-rose-900/10 pointer-events-none"></div>
             <div className="flex justify-between items-start mb-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-[1.25rem] bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
@@ -145,7 +145,7 @@ export default function AdminOverviewPanel() {
             </div>
           </div>
 
-          <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center justify-between hover:bg-white dark:hover:bg-slate-900 transition-all group">
+          <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center justify-between hover:bg-white dark:hover:bg-slate-900 transition-all group">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-[1.25rem] bg-cyan-50 dark:bg-cyan-500/10 text-cyan-500 dark:text-cyan-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
@@ -173,7 +173,7 @@ export default function AdminOverviewPanel() {
         </div>
 
         {/* Hardware Alerts Section */}
-        <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col h-full">
+        <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col h-full">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight">Hardware Alerts</h3>
             <span className="bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-[10px] px-2.5 py-1 rounded-md font-extrabold uppercase tracking-widest animate-pulse">1 Warning</span>
@@ -184,7 +184,7 @@ export default function AdminOverviewPanel() {
             <div className="bg-rose-50/50 dark:bg-rose-900/20 hover:bg-rose-50 dark:hover:bg-rose-900/30 border border-rose-100 dark:border-rose-500/30 p-5 rounded-2xl relative overflow-hidden group cursor-pointer transition-colors shadow-sm dark:shadow-none">
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
               <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-[1rem] bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center text-rose-600 dark:text-rose-400 shadow-inner dark:shadow-none shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center text-rose-600 dark:text-rose-400 shadow-inner dark:shadow-none shrink-0 group-hover:scale-110 transition-transform">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 </div>
                 <div>
@@ -198,7 +198,7 @@ export default function AdminOverviewPanel() {
             <div className="bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800/60 border border-slate-100 dark:border-slate-700/50 p-5 rounded-2xl relative overflow-hidden group cursor-pointer transition-colors">
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-400 dark:bg-blue-500"></div>
               <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-[1rem] bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 dark:text-blue-400 shadow-inner dark:shadow-none shrink-0 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 dark:text-blue-400 shadow-inner dark:shadow-none shrink-0 group-hover:scale-110 transition-transform">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
                 </div>
                 <div>
