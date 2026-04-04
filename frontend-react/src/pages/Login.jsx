@@ -112,7 +112,7 @@ export default function Login() {
         <div className="hidden lg:flex w-1/2 bg-[#020617] text-white p-12 flex-col justify-center relative overflow-hidden">
           <div className={`absolute top-10 left-12 flex items-center gap-6 transition-all duration-1000 ${!showSplash ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
             <img src="/logo.png" alt="Logo" className="h-24 w-auto drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
-            <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-500">FamilySafe</span>
+            <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-white to-zinc-500">FamilySafe</span>
           </div>
 
           <div className={`max-w-xl z-10 transition-all duration-1000 ${!showSplash ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
