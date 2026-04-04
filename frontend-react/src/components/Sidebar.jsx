@@ -33,16 +33,16 @@ export default function Sidebar({ activeMenu, setActiveMenu, userRole }) {
 ];
 
   return (
-    <div className="w-64 h-screen sticky top-0 bg-gradient-to-b from-white/60 to-white/30 dark:from-slate-900/90 dark:to-[#0B1120]/90 backdrop-blur-3xl border-r border-white/60 dark:border-slate-800/50 p-6 flex flex-col z-20 shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none transition-colors duration-500">
+    <div className="w-64 h-screen sticky top-0 bg-linear-to-b from-white/60 to-white/30 dark:from-slate-900/90 dark:to-[#0B1120]/90 backdrop-blur-3xl border-r border-white/60 dark:border-slate-800/50 p-6 flex flex-col z-20 shrink-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none transition-colors duration-500">
       
       {/* Premium Logo Area */}
       <div className="flex items-center gap-3 mb-10 px-2 group cursor-default">
         <div className="w-12 h-12 relative flex items-center justify-center shrink-0 perspective-[1000px]">
-          <div className="absolute inset-0 bg-blue-500 rounded-full blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500 -z-10"></div>
-          <img 
+          <div className="absolute inset-0 bg-blue-500 rounded-full blur-md  opacity-0 group-hover:opacity-40 transition-opacity duration-500 -z-10"></div>
+          <img
             src="/logo.png" 
             alt="FamilySafe Logo" 
-            className="w-full h-full object-contain drop-shadow-xl transition-transform duration-[800ms] group-hover:[transform:rotateY(360deg)]"
+            className="w-full h-full object-contain drop-shadow-xl transition-transform duration-800 group-hover:transform-[rotateY(360deg)]"
           />
         </div>
         <div className="flex flex-col">
@@ -68,7 +68,7 @@ export default function Sidebar({ activeMenu, setActiveMenu, userRole }) {
               onClick={() => setActiveMenu(item.name)}
               className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${
                 isActive 
-                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50/50 dark:from-blue-500/10 dark:to-indigo-500/10 text-blue-600 dark:text-blue-400 font-bold shadow-sm border border-blue-100/50 dark:border-blue-500/20' 
+                  ? 'bg-linear-to-r from-blue-50 to-indigo-50/50 dark:from-blue-500/10 dark:to-indigo-500/10 text-blue-600 dark:text-blue-400 font-bold shadow-sm border border-blue-100/50 dark:border-blue-500/20' 
                   : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-slate-200 font-medium border border-transparent'
               }`}
             >
@@ -92,7 +92,7 @@ export default function Sidebar({ activeMenu, setActiveMenu, userRole }) {
           onClick={() => setActiveMenu('Settings')}
           className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300 ${
             activeMenu === 'Settings' 
-              ? 'bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 text-slate-800 dark:text-white font-bold shadow-sm border border-slate-300/50' 
+              ? 'bg-linear-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 text-slate-800 dark:text-white font-bold shadow-sm border border-slate-300/50' 
               : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-slate-200 font-medium'
           }`}
         >

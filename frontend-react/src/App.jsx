@@ -8,7 +8,6 @@ import MemberSetup from './pages/MemberSetup';
 
 export default function App() {
   return (
-    // Only use <Routes> here. The <BrowserRouter> is handling the rest in main.jsx!
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/role" element={<Role />} />
