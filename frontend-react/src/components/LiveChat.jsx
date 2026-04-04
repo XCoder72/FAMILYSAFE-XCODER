@@ -49,7 +49,7 @@ export default function LiveChat() {
   }, []);
 
   return (
-    <div className="flex w-full h-full bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/60 dark:border-slate-700/50 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] overflow-hidden transition-colors duration-500">
+    <div className="flex w-full h-full bg-white/80 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/60 dark:border-slate-700/50 rounded-4xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] overflow-hidden transition-colors duration-500">
       
       {/* ======================================= */}
       {/* LEFT PANE: Contacts List (Sidebar) */}
@@ -72,8 +72,8 @@ export default function LiveChat() {
 
         <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-1 custom-scrollbar">
           
-          <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-indigo-50 to-blue-50/50 dark:from-indigo-500/10 dark:to-blue-500/5 border border-indigo-100 dark:border-indigo-500/20 rounded-2xl cursor-pointer transition-all shadow-sm">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/30">
+          <div className="flex items-center gap-3 p-3 bg-linear-to-r from-indigo-50 to-blue-50/50 dark:from-indigo-500/10 dark:to-blue-500/5 border border-indigo-100 dark:border-indigo-500/20 rounded-2xl cursor-pointer transition-all shadow-sm">
+            <div className="w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/30">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             </div>
             <div className="flex-1 min-w-0">
@@ -87,7 +87,7 @@ export default function LiveChat() {
 
           <div className="flex items-center gap-3 p-3 hover:bg-white dark:hover:bg-slate-800/60 rounded-2xl cursor-pointer transition-colors group border border-transparent">
             <div className="relative">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-sky-100 dark:from-slate-700 to-blue-100 dark:to-slate-600 flex items-center justify-center text-blue-600 dark:text-white font-black text-lg border-2 border-white dark:border-slate-800 shadow-sm">
+              <div className="w-12 h-12 rounded-full bg-linear-to-tr from-sky-100 dark:from-slate-700 to-blue-100 dark:to-slate-600 flex items-center justify-center text-blue-600 dark:text-white font-black text-lg border-2 border-white dark:border-slate-800 shadow-sm">
                 P
               </div>
               <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white dark:border-slate-800 rounded-full"></span>
@@ -110,7 +110,7 @@ export default function LiveChat() {
         
         <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 p-4 px-6 flex justify-between items-center z-10 backdrop-blur-md transition-colors">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-md">
+            <div className="w-12 h-12 rounded-full bg-linear-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white shadow-md">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             </div>
             <div>
@@ -160,7 +160,7 @@ export default function LiveChat() {
                 <div 
                   className={`max-w-[75%] px-5 py-3 shadow-sm text-sm font-medium leading-relaxed
                     ${msg.isMe 
-                      ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-2xl rounded-tr-sm' 
+                      ? 'bg-linear-to-br from-blue-500 to-indigo-600 text-white rounded-2xl rounded-tr-sm' 
                       : 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/50 text-slate-800 dark:text-white rounded-2xl rounded-tl-sm'
                   }`}
                 >
@@ -192,7 +192,7 @@ export default function LiveChat() {
             <button 
               onClick={sendMessage}
               disabled={currentMessage.trim() === ""}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-blue-300 disabled:to-indigo-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:cursor-not-allowed text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-md shrink-0 ml-1"
+              className="bg-linear-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-blue-300 disabled:to-indigo-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:cursor-not-allowed text-white w-12 h-12 rounded-full flex items-center justify-center transition-colors shadow-md shrink-0 ml-1"
             >
               <svg className="w-5 h-5 translate-x-px -translate-y-px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
             </button>
