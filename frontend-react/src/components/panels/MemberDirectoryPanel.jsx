@@ -89,7 +89,7 @@ export default function MemberDirectoryPanel({ onSelectMember }) {
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="relative">
-                    <div className="w-16 h-16 rounded-[1.25rem] bg-gradient-to-tr from-blue-50 to-indigo-100 dark:from-indigo-900/40 dark:to-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-black text-2xl border-2 border-white dark:border-slate-800 shadow-sm">
+                    <div className="w-16 h-16 rounded-[1.25rem] bg-linear-to-tr from-blue-50 to-indigo-100 dark:from-indigo-900/40 dark:to-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-black text-2xl border-2 border-white dark:border-slate-800 shadow-sm">
                       {member.name ? member.name.charAt(0).toUpperCase() : '?'}
                     </div>
                     <span className={`absolute -bottom-1 -right-1 w-5 h-5 ${status.bg} border-2 border-white dark:border-slate-800 rounded-full flex items-center justify-center shadow-sm`}></span>

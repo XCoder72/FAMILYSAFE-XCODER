@@ -181,7 +181,7 @@ export default function MemberHealthPanel({ memberData }) {
             
             <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl p-4 flex items-center justify-between hover:bg-white dark:hover:bg-slate-800/80 transition-colors group cursor-default">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-[1rem] bg-white dark:bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shadow-sm dark:shadow-none border border-slate-50 dark:border-indigo-500/20 group-hover:scale-105 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-indigo-500/10 flex items-center justify-center text-indigo-500 dark:text-indigo-400 shadow-sm dark:shadow-none border border-slate-50 dark:border-indigo-500/20 group-hover:scale-105 transition-transform">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                 </div>
                 <div>

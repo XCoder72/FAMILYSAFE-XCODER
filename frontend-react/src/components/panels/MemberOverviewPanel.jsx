@@ -176,7 +176,7 @@ export default function MemberOverviewPanel({ memberData }) {
           </div>
 
           {/* 🚨 QUICK SOS EMERGENCY BUTTON */}
-          <div className="xl:col-span-2 bg-gradient-to-br from-rose-500 to-rose-700 p-8 rounded-[2rem] shadow-xl hover:shadow-rose-500/20 transition-all group flex flex-col md:flex-row items-center justify-between gap-6 cursor-pointer overflow-hidden relative active:scale-95">
+          <div className="xl:col-span-2 bg-gradient-to-br from-rose-500 to-rose-700 p-8 rounded-4xl shadow-xl hover:shadow-rose-500/20 transition-all group flex flex-col md:flex-row items-center justify-between gap-6 cursor-pointer overflow-hidden relative active:scale-95">
              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
              <div className="flex items-center gap-6 relative z-10">
                 <div className="w-20 h-20 rounded-full bg-white/20 border-4 border-white/30 flex items-center justify-center text-white text-4xl shadow-lg">🚨</div>
