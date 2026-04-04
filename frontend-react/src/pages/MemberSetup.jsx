@@ -60,7 +60,7 @@ export default function MemberSetup() {
 
       const data = await response.json();
 
-      if (data.success) {
+       if (data.success) {
         // 3. Save to localStorage to persist the session
         const updatedData = {
           ...existingData,
