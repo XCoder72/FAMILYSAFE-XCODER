@@ -67,7 +67,7 @@ export default function AdminOverviewPanel() {
             </span>
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">Admin Hardware Online</h2>
+            <h2  className="text-2xl md:text-3xl font-black text-white tracking-tight">Admin Hardware Online</h2>
             <p className="text-cyan-200 font-medium mt-1 text-sm md:text-base">Master Device Network Sync Active</p>
           </div>
         </div>
