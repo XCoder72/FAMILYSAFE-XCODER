@@ -50,7 +50,7 @@ export default function DoctorPanel({ memberData }) {
     <div className="animate-fade-in-up space-y-8">
       
       {/* 🏥 CLINICAL COMMAND BANNER */}
-      <div className="bg-gradient-to-r from-teal-900 via-emerald-900 to-slate-900 rounded-[2.5rem] p-8 relative overflow-hidden shadow-2xl border border-teal-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-linear-to-r from-teal-900 via-emerald-900 to-slate-900 rounded-[2.5rem] p-8 relative overflow-hidden shadow-2xl border border-teal-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full mix-blend-overlay filter blur-[80px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         
         <div className="relative z-10 flex items-center gap-6">
@@ -139,7 +139,7 @@ export default function DoctorPanel({ memberData }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {reports.length > 0 ? reports.map((report, index) => (
-              <div key={index} className="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => window.open(report.fileUrl, '_blank')}>
+              <div key={index} className="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-4xl border border-slate-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => window.open(report.fileUrl, '_blank')}>
                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                    {/* ✨ PDF vs IMAGE ICON LOGIC */}
                    {report.fileUrl.toLowerCase().endsWith('.pdf') ? (

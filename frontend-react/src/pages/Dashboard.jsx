@@ -83,6 +83,7 @@ export default function Dashboard() {
         const response = await fetch(`http://localhost:5000/api/family-members/${savedData.familyCode}`);
         const data = await response.json();
         if (data.success) {
+          setAllFamilyMembers(data.members);
           const myData = data.members.find(m => m.phone === savedData.phone);
           setLiveMemberData(myData);
           
@@ -234,7 +235,10 @@ export default function Dashboard() {
             <HealthPanel 
              isTestMode={isTestMode} 
              liveMemberData={liveMemberData} /> )}
-                {activeTab === 'Tracking' && <TrackingPanel memberData={liveMemberData || adminData} />}
+                {activeTab === 'Tracking' && (
+            <TrackingPanel 
+             isTestMode={isTestMode} 
+             liveMemberData={liveMemberData} /> )}
               </>
             )}
 
