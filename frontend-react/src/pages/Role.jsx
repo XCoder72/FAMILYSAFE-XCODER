@@ -121,22 +121,22 @@ export default function Role() {
     >
       {/* 🔮 DYNAMIC BACKGROUND ORBS 🔮 */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[125px] h-[125px] bg-blue-400/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob"></div>
-        <div className="absolute top-[10%] right-[-10%] w-[150px] h-[150px] bg-sky-300/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-[-20%] left-[20%] w-[175px] h-[175px] bg-indigo-300/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob animation-delay-4000"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-31.25 h-31.25 bg-blue-400/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob"></div>
+        <div className="absolute top-[10%] right-[-10%] w-37.5 h-37.5 bg-sky-300/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-[-20%] left-[20%] w-43.75 h-43.75 bg-indigo-300/20 rounded-full mix-blend-multiply filter blur-[80px] animate-blob animation-delay-4000"></div>
       </div>
 
       {/* Minimal Navbar */}
       <nav className={`absolute top-0 w-full px-12 py-10 flex items-center gap-6 z-10 transition-all duration-1000 animate-fade-in-up`}>
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+          <div className="absolute -inset-1 bg-linear-to-r from-blue-600 to-cyan-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
           <img 
             src="/logo.png" 
             alt="Logo" 
             className="relative h-24 w-auto drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" 
           />
         </div>
-        <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-500">
+        <span className="text-5xl font-black tracking-tighter bg-clip-text text-transparent bg-linear-to-b from-slate-900 to-slate-500">
           FamilySafe
         </span>
       </nav>
@@ -166,8 +166,8 @@ export default function Role() {
              onClick={handleCreateNetwork}
               className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border-2 border-white cursor-pointer transition-all duration-300 w-full max-w-[24rem] text-center relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.15)] hover:border-blue-400 animate-fade-in-up delay-300"
             >
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-sky-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-6 transition-transform">
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-blue-600 to-sky-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <div className="w-20 h-20 mx-auto mb-6 bg-linear-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-6 transition-transform">
                 🛡️
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-3">Create a Network</h3>
@@ -179,8 +179,8 @@ export default function Role() {
               onClick={() => setActivePath('join')}
               className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border-2 border-white cursor-pointer transition-all duration-300 w-full max-w-[24rem] text-center relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.15)] hover:border-blue-400 animate-fade-in-up delay-400"
             >
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-sky-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:-rotate-6 transition-transform">
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-blue-600 to-sky-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <div className="w-20 h-20 mx-auto mb-6 bg-linear-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:-rotate-6 transition-transform">
                 🔗
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-3">Join a Network</h3>
@@ -193,7 +193,7 @@ export default function Role() {
         
         {/* CREATE NETWORK FORM */}
         {activePath === 'create' && (
-          <div className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] border border-white w-full max-w-[28rem] text-center animate-fade-in-up">
+          <div className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] border border-white w-full max-w-md text-center animate-fade-in-up">
             <h3 className="text-2xl font-bold text-slate-900 mb-2">Your Secure Network Code</h3>
             
             {/* Premium Code Display Card */}
@@ -247,12 +247,12 @@ export default function Role() {
 
         {/* JOIN NETWORK FORM */}
         {activePath === 'join' && (
-          <div className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] border border-white w-full max-w-[28rem] text-center animate-fade-in-up">
+          <div className="bg-white/80 backdrop-blur-xl p-10 rounded-3xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] border border-white w-full max-w-md text-center animate-fade-in-up">
             <h3 className="text-2xl font-bold text-slate-900 mb-2">Enter Invite Code</h3>
             <p className="text-slate-500 mb-8 font-medium">Ask your network Admin for their 4-digit code.</p>
             
             {/* Premium Join Code Input */}
-            <div className="mb-8 relative max-w-[340px] mx-auto">
+            <div className="mb-8 relative max-w-85 mx-auto">
               <div className="bg-slate-50/80 border-2 border-dashed border-slate-300 rounded-2xl py-4 flex items-center justify-center transition-all focus-within:border-blue-500 focus-within:bg-blue-50/80 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:bg-slate-100">
                 <div className="flex items-center">
                   <span className="text-2xl font-bold text-slate-400 tracking-widest select-none">SAFE</span>
@@ -263,7 +263,7 @@ export default function Role() {
                     placeholder="0000" 
                     value={joinCodeInput}
                     onChange={(e) => setJoinCodeInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-[140px] bg-transparent text-5xl font-black text-blue-600 tracking-[0.15em] outline-none placeholder:text-blue-200 selection:bg-blue-200"
+                    className="w-35 bg-transparent text-5xl font-black text-blue-600 tracking-[0.15em] outline-none placeholder:text-blue-200 selection:bg-blue-200"
                   />
                 </div>
               </div>
