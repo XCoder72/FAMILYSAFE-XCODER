@@ -4,10 +4,10 @@ import AlertPanel from '../AlertPanel';
 
 export default function OverviewPanel({ memberData }) {
   const [familyStats, setFamilyStats] = useState({ total: 0, online: 0 });
+  const [realMembers, setRealMembers] = useState([]); 
 
-  // ✨ Fetch real network stats from the database
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchFamilyData = async () => {
       const rawUser = localStorage.getItem('familySafeUser');
       if (!rawUser) return;
       const { familyCode } = JSON.parse(rawUser);
@@ -16,28 +16,31 @@ export default function OverviewPanel({ memberData }) {
         const res = await fetch(`http://localhost:5000/api/family-members/${familyCode}`);
         const data = await res.json();
         if (data.success) {
+          setRealMembers(data.members); 
           const total = data.members.length;
-          const online = data.members.filter(m => m.status === 'Online' || m.status === 'FALL_ALERT' || m.status === 'SOS').length;
+          const online = data.members.filter(m => 
+            m.status === 'Online' || m.status === 'FALL_ALERT' || m.status === 'SOS'
+          ).length;
           setFamilyStats({ total, online });
         }
       } catch (err) {
-        console.error("Stats Fetch Error:", err);
+        console.error("Data Fetch Error:", err);
       }
     };
 
-    fetchStats();
-    const interval = setInterval(fetchStats, 5000); // Keep stats fresh
+    fetchFamilyData();
+    const interval = setInterval(fetchFamilyData, 3000); 
     return () => clearInterval(interval);
   }, []);
 
+  const isEmergency = memberData?.status === 'FALL_ALERT' || memberData?.status === 'SOS';
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 animate-fade-in-up">
-      
-      {/* Left Column (Stats & Members) */}
       <div className="xl:col-span-2 flex flex-col gap-8">
         
-        {/* Premium Stats Container */}
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-colors duration-500">
+        {/* Stats Section */}
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm transition-colors duration-500">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 text-white flex items-center justify-center shadow-lg">
@@ -49,21 +52,19 @@ export default function OverviewPanel({ memberData }) {
               </div>
             </div>
             
-            {/* Status Indicator tied to LIVE data */}
-            <div className={`px-4 py-2 border rounded-full flex items-center gap-2 shadow-sm transition-colors ${memberData?.status === 'Online' ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100'}`}>
-              <span className={`w-2 h-2 rounded-full animate-pulse ${memberData?.status === 'Online' ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
-              <span className={`text-[10px] font-extrabold uppercase tracking-wider ${memberData?.status === 'Online' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                {memberData?.status === 'Online' ? 'All Systems Go' : 'Alert Active'}
+            <div className={`px-4 py-2 border rounded-full flex items-center gap-2 shadow-sm transition-colors ${!isEmergency ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100'}`}>
+              <span className={`w-2 h-2 rounded-full animate-pulse ${!isEmergency ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
+              <span className={`text-[10px] font-extrabold uppercase tracking-wider ${!isEmergency ? 'text-emerald-600' : 'text-rose-600'}`}>
+                {!isEmergency ? 'All Systems Go' : 'Alert Active'}
               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Device Stat Card (Real Data) */}
             <div className="bg-slate-50/50 dark:bg-slate-800/60 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-500/20 text-cyan-500 flex items-center justify-center">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
                 </div>
                 <span className="text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-md uppercase tracking-wider">Live</span>
               </div>
@@ -73,18 +74,14 @@ export default function OverviewPanel({ memberData }) {
                 <span className="text-lg text-slate-400 font-medium mb-1">/ {familyStats.total}</span>
               </div>
               <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-1000"
-                  style={{ width: `${(familyStats.online / familyStats.total) * 100}%` }}
-                ></div>
+                <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-1000" style={{ width: `${familyStats.total > 0 ? (familyStats.online / familyStats.total) * 100 : 0}%` }}></div>
               </div>
             </div>
 
-            {/* Members Stat Card (Real Data) */}
             <div className="bg-slate-50/50 dark:bg-slate-800/60 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/20 text-emerald-500 flex items-center justify-center">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
                 <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md uppercase tracking-wider">Synced</span>
               </div>
@@ -99,19 +96,44 @@ export default function OverviewPanel({ memberData }) {
           </div>
         </div>
 
-        {/* Member Details Wrapper ✨ Passing memberData prop down */}
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-2 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm transition-colors">
-          <MemberCard memberData={memberData} />
+        {/* ✨ CLEANED MEMBER SECTION: Only shows Real Members */}
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm transition-colors">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h3 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight leading-none">Member Details</h3>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-3">Family Network</p>
+            </div>
+            <button className="px-4 py-2 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-xl border border-blue-100 hover:bg-blue-600 hover:text-white transition-all shadow-sm">View All Directory</button>
+          </div>
+          
+          <div className="overflow-hidden">
+             {/* Header Row */}
+             <div className="grid grid-cols-3 px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <span>Member Name</span>
+                <span className="text-center">Battery Level</span>
+                <span className="text-right">Connection Status</span>
+             </div>
+
+             {/* Real Data Loop */}
+             <div className="space-y-4">
+                {realMembers.length > 0 ? (
+                  realMembers.map((member) => (
+                    <MemberCard key={member._id} memberData={member} />
+                  ))
+                ) : (
+                  <div className="p-8 text-center text-slate-400 text-xs font-bold italic">Scanning network for active members...</div>
+                )}
+             </div>
+          </div>
         </div>
       </div>
 
-      {/* Right Column (Alerts) ✨ Passing memberData to alert panel */}
+      {/* Right Column (Alerts) */}
       <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm h-full max-h-[800px] flex flex-col relative overflow-hidden transition-colors">
         <div className="relative z-10 h-full flex flex-col">
           <AlertPanel memberData={memberData} />
         </div>
       </div>
-
     </div>
   );
 }
