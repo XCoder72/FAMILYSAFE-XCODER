@@ -138,7 +138,7 @@ export default function AdminSetup() {
               </div>
             </div>
             
-            {/* Email Input */}
+            {/* Email Input-- */}
             <div>
               <label className="block text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
               <div className="relative group">
