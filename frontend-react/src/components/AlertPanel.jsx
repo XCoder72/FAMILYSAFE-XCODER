@@ -1,10 +1,8 @@
 import React from 'react';
 
-export default function AlertPanel({ memberData }) {
-  // ✨ Check if there is an active simulation alert
-  const hasAlert = memberData && memberData.status !== 'Online';
+export default function AlertPanel({ memberData, isTestMode }) {
+  const hasAlert = isTestMode && memberData && (memberData.status === 'FALL_ALERT' || memberData.status === 'SOS');
   
-  // Logic to determine alert level and details based on real simulation status
   const getAlertDetails = () => {
     if (!hasAlert) return null;
 
@@ -114,7 +112,10 @@ export default function AlertPanel({ memberData }) {
              <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
                 <svg className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
              </div>
-             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">No Active Alerts</p>
+             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">
+               No Active Alerts <br />
+               <span className="text-[8px] opacity-70">Simulation hidden in Normal Mode</span>
+             </p>
           </div>
         )}
       </div>

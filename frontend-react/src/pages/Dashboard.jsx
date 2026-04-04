@@ -226,7 +226,12 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto p-8 pt-0 custom-scrollbar">
             {activeMenu === 'Dashboard' && (
               <>
-                {activeTab === 'Overview' && <OverviewPanel memberData={liveMemberData || adminData} />}
+                {activeTab === 'Overview' && (
+          <OverviewPanel 
+             memberData={liveMemberData || adminData} 
+             isTestMode={isTestMode}
+  />
+)}
                 {activeTab === 'Health' && <HealthPanel memberData={liveMemberData || adminData} />}
                 {activeTab === 'Tracking' && <TrackingPanel memberData={liveMemberData || adminData} />}
               </>

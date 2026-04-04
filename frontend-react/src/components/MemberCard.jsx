@@ -1,14 +1,21 @@
 import React from 'react';
 
-export default function MemberCard({ memberData }) {
-  // If no data is available yet, don't render or show a skeleton
+export default function MemberCard({ memberData, isTestMode }) {
+  // If no data is available yet, don't render
   if (!memberData) return null;
 
   // Extract real values from the memberData prop
   const name = memberData.name || 'Unknown User';
   const role = memberData.role || 'Member';
   const battery = Math.round(memberData.vitals?.watchBattery || 0);
-  const isOnline = memberData.status === 'Online' || memberData.status === 'FALL_ALERT' || memberData.status === 'SOS';
+
+  // ✨ FIX LOGIC: Force "Connected" status if Test Mode is OFF, even if there's a backend alert
+  const hasActualAlert = memberData.status === 'FALL_ALERT' || memberData.status === 'SOS';
+  const showAsAlert = isTestMode && hasActualAlert;
+  
+  // If Test Mode is ON and there is an alert, show it. Otherwise, if status is Online/Alert/SOS, show as Connected.
+  const isOnline = memberData.status === 'Online' || hasActualAlert;
+  const statusText = showAsAlert ? memberData.status.replace('_', ' ') : 'Connected';
 
   const getBatteryColor = (level) => {
     if (level <= 20) return 'bg-rose-500';
@@ -26,7 +33,7 @@ export default function MemberCard({ memberData }) {
     <div className="p-4 transition-all duration-500">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center p-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-slate-100 dark:hover:border-slate-700/50 transition-all duration-300 group cursor-default bg-white/40 dark:bg-slate-900/40 backdrop-blur-sm">
         
-        {/* 1. Name & Avatar (Real Data) */}
+        {/* 1. Name & Avatar */}
         <div className="col-span-5 flex items-center gap-4">
           <div className="relative">
             <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-slate-100 dark:from-slate-700 to-slate-200 dark:to-slate-600 flex items-center justify-center text-slate-600 dark:text-white font-black text-lg border-2 border-white dark:border-slate-800 shadow-sm group-hover:scale-105 transition-transform duration-300">
@@ -44,7 +51,7 @@ export default function MemberCard({ memberData }) {
           </div>
         </div>
 
-        {/* 2. Battery Level (Real Data) */}
+        {/* 2. Battery Level */}
         <div className="col-span-4 flex items-center gap-4">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-inner dark:shadow-none ${getBatteryTrack(battery)}`}>
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,17 +74,17 @@ export default function MemberCard({ memberData }) {
           </div>
         </div>
 
-        {/* 3. Connection Status (Driven by Simulation) */}
+        {/* 3. Connection Status */}
         <div className="col-span-3 flex items-center justify-between">
           <div className="flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700/50 shadow-sm dark:shadow-none transition-colors">
             {isOnline ? (
               <>
                 <span className="relative flex h-2 w-2">
-                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${memberData.status === 'Online' ? 'bg-emerald-400' : 'bg-rose-400'}`}></span>
-                  <span className={`relative inline-flex rounded-full h-2 w-2 ${memberData.status === 'Online' ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${!showAsAlert ? 'bg-emerald-400' : 'bg-rose-400'}`}></span>
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${!showAsAlert ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
                 </span>
-                <span className={`text-xs font-bold ${memberData.status === 'Online' ? 'text-emerald-600' : 'text-rose-600 animate-pulse'}`}>
-                  {memberData.status === 'Online' ? 'Connected' : memberData.status.replace('_', ' ')}
+                <span className={`text-xs font-bold ${!showAsAlert ? 'text-emerald-600' : 'text-rose-600 animate-pulse'}`}>
+                  {statusText}
                 </span>
               </>
             ) : (

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import MemberCard from '../MemberCard';
 import AlertPanel from '../AlertPanel';
 
-export default function OverviewPanel({ memberData }) {
+export default function OverviewPanel({ memberData, isTestMode }) {
   const [familyStats, setFamilyStats] = useState({ total: 0, online: 0 });
-  const [realMembers, setRealMembers] = useState([]); 
+  const [realMembers, setRealMembers] = useState([]);
 
   useEffect(() => {
     const fetchFamilyData = async () => {
@@ -18,9 +18,12 @@ export default function OverviewPanel({ memberData }) {
         if (data.success) {
           setRealMembers(data.members); 
           const total = data.members.length;
+          
+          // Logic: Even if DB has an alert, we only count it as an "Active Alert" UI-wise if Test Mode is ON
           const online = data.members.filter(m => 
             m.status === 'Online' || m.status === 'FALL_ALERT' || m.status === 'SOS'
           ).length;
+          
           setFamilyStats({ total, online });
         }
       } catch (err) {
@@ -33,7 +36,8 @@ export default function OverviewPanel({ memberData }) {
     return () => clearInterval(interval);
   }, []);
 
-  const isEmergency = memberData?.status === 'FALL_ALERT' || memberData?.status === 'SOS';
+  // ✨ UI Logic: The "Alert Active" pill ONLY activates if Test Mode is ON
+  const isEmergency = isTestMode && (memberData?.status === 'FALL_ALERT' || memberData?.status === 'SOS');
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 animate-fade-in-up">
@@ -57,7 +61,7 @@ export default function OverviewPanel({ memberData }) {
               <span className={`text-[10px] font-extrabold uppercase tracking-wider ${!isEmergency ? 'text-emerald-600' : 'text-rose-600'}`}>
                 {!isEmergency ? 'All Systems Go' : 'Alert Active'}
               </span>
-            </div>
+            </div>  
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -96,7 +100,7 @@ export default function OverviewPanel({ memberData }) {
           </div>
         </div>
 
-        {/* ✨ CLEANED MEMBER SECTION: Only shows Real Members */}
+        {/* Member Section */}
         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm transition-colors">
           <div className="flex justify-between items-center mb-8">
             <div>
@@ -107,31 +111,31 @@ export default function OverviewPanel({ memberData }) {
           </div>
           
           <div className="overflow-hidden">
-             {/* Header Row */}
-             <div className="grid grid-cols-3 px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <div className="grid grid-cols-3 px-4 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                 <span>Member Name</span>
                 <span className="text-center">Battery Level</span>
                 <span className="text-right">Connection Status</span>
-             </div>
+              </div>
 
-             {/* Real Data Loop */}
-             <div className="space-y-4">
+              <div className="space-y-4">
                 {realMembers.length > 0 ? (
                   realMembers.map((member) => (
-                    <MemberCard key={member._id} memberData={member} />
+                    // ✨ PASSING isTestMode prop here
+                    <MemberCard key={member._id} memberData={member} isTestMode={isTestMode} />
                   ))
                 ) : (
                   <div className="p-8 text-center text-slate-400 text-xs font-bold italic">Scanning network for active members...</div>
                 )}
-             </div>
+              </div>
           </div>
         </div>
       </div>
 
       {/* Right Column (Alerts) */}
-      <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm h-full max-h-[800px] flex flex-col relative overflow-hidden transition-colors">
+      <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-sm h-full max-h-[800px] flex flex-col relative overflow-hidden transition-colors duration-500">
         <div className="relative z-10 h-full flex flex-col">
-          <AlertPanel memberData={memberData} />
+          {/* ✨ PASSING isTestMode prop here */}
+          <AlertPanel memberData={memberData} isTestMode={isTestMode} />
         </div>
       </div>
     </div>
