@@ -24,8 +24,8 @@ export default function TestingPanel({ userPhone, onUpdate }) {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100] animate-fade-in-up">
-      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-6 rounded-[2rem] shadow-2xl border border-slate-200 dark:border-slate-700 w-72">
+    <div className="fixed bottom-8 right-8 z-100 animate-fade-in-up">
+      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl p-6 rounded-4xl shadow-2xl border border-slate-200 dark:border-slate-700 w-72">
         <div className="flex items-center gap-2 mb-4">
           <span className="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
           <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
