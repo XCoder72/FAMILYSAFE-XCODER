@@ -27,7 +27,7 @@ export default function AdminTrackingPanel() {
   return (
     <div className="animate-fade-in-up space-y-8">
               
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-900 to-blue-900 rounded-[2rem] p-8 relative overflow-hidden shadow-2xl border border-indigo-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-linear-to-r from-slate-900 via-indigo-900 to-blue-900 rounded-4xl p-8 relative overflow-hidden shadow-2xl border border-indigo-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full mix-blend-overlay filter blur-[80px] translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDQwIEwgNDAgNDAgNDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]"></div>
 
@@ -56,7 +56,7 @@ export default function AdminTrackingPanel() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
+        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
           <div className="w-14 h-14 rounded-[1.25rem] bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
           </div>
@@ -66,7 +66,7 @@ export default function AdminTrackingPanel() {
           </div>
         </div>
 
-        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
+        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
           <div className="w-14 h-14 rounded-[1.25rem] bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
@@ -76,7 +76,7 @@ export default function AdminTrackingPanel() {
           </div>
         </div>
 
-        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
+        <div className="bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center gap-5 hover:-translate-y-1 transition-all duration-300 group">
           <div className="w-14 h-14 rounded-[1.25rem] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-inner dark:shadow-none group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
@@ -90,7 +90,7 @@ export default function AdminTrackingPanel() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
          
-         <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col">
+         <div className="xl:col-span-2 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-6 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col">
            <div className="flex justify-between items-center mb-6 px-2">
               <h3 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center"><svg className="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg></div>
@@ -99,8 +99,8 @@ export default function AdminTrackingPanel() {
               <button className="bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm">Recenter GPS</button>
            </div>
            
-           <div className="bg-slate-900 dark:bg-black rounded-[1.5rem] h-[400px] w-full relative overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 z-0">
-              <div className="absolute top-4 right-4 z-[400] bg-black/50 backdrop-blur-md border border-white/10 p-2 rounded-xl flex flex-col gap-2">
+           <div className="bg-slate-900 dark:bg-black rounded-3xl h-100 w-full relative overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 z-0">
+              <div className="absolute top-4 right-4 z-400 bg-black/50 backdrop-blur-md border border-white/10 p-2 rounded-xl flex flex-col gap-2">
                  <button className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg></button>
                  <button className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" /></svg></button>
               </div>
@@ -113,11 +113,11 @@ export default function AdminTrackingPanel() {
            </div>
          </div>
 
-         <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col h-full max-h-[550px]">
+         <div className="xl:col-span-1 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl p-8 rounded-4xl border border-white/60 dark:border-slate-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none flex flex-col h-full max-h-137.5">
            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6">Location Log</h3>
            
            <div className="flex-1 overflow-y-auto pr-2 space-y-6 relative custom-scrollbar">
-             <div className="absolute left-[19px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-indigo-500 via-slate-200 dark:via-slate-700 to-transparent"></div>
+             <div className="absolute left-4.75 top-2 bottom-2 w-0.5 bg-linear-to-b from-indigo-500 via-slate-200 dark:via-slate-700 to-transparent"></div>
 
              <div className="relative pl-12 group">
                <div className="absolute left-3 top-1 w-4 h-4 bg-indigo-500 rounded-full shadow-[0_0_0_4px_rgba(255,255,255,1)] dark:shadow-[0_0_0_4px_rgba(15,23,42,1)] group-hover:scale-125 transition-transform z-10"></div>
