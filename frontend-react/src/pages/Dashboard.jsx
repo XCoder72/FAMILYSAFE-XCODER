@@ -227,12 +227,13 @@ export default function Dashboard() {
             {activeMenu === 'Dashboard' && (
               <>
                 {activeTab === 'Overview' && (
-          <OverviewPanel 
+            <OverviewPanel 
              memberData={liveMemberData || adminData} 
-             isTestMode={isTestMode}
-  />
-)}
-                {activeTab === 'Health' && <HealthPanel memberData={liveMemberData || adminData} />}
+             isTestMode={isTestMode} /> )}
+                {activeTab === 'Health' && (
+            <HealthPanel 
+             isTestMode={isTestMode} 
+             liveMemberData={liveMemberData} /> )}
                 {activeTab === 'Tracking' && <TrackingPanel memberData={liveMemberData || adminData} />}
               </>
             )}
