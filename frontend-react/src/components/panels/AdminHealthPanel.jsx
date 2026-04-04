@@ -100,7 +100,7 @@ export default function AdminHealthPanel() {
             <span className="text-4xl font-black text-slate-800 dark:text-white tracking-tight">8,432</span>
           </div>
           <div className="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full mt-6 overflow-hidden shadow-inner dark:shadow-none">
-            <div className="w-[84%] h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full relative">
+            <div className="w-[84%] h-full bg-linear-to-r from-emerald-400 to-teal-500 rounded-full relative">
               <div className="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]"></div>
             </div>
           </div>
