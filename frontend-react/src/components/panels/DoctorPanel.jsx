@@ -13,7 +13,7 @@ export default function DoctorPanel({ memberData }) {
     const targetPhone = memberData?.phone || savedUser?.phone;
 
     if (!targetPhone) {
-      alert("System Error: Could not identify user. Please re-login.");
+      alert("System Error: Could not identify user identity for encryption.");
       return;
     }
 
@@ -21,11 +21,12 @@ export default function DoctorPanel({ memberData }) {
     const formData = new FormData();
     formData.append('report', file);
     formData.append('reportName', file.name.split('.')[0]); 
-    formData.append('doctorName', "General Physician");
-    formData.append('category', file.type.includes('pdf') ? "PDF Report" : "Image Scan");
+    formData.append('doctorName', "Primary Care Physician");
+    formData.append('category', file.type.includes('pdf') ? "Clinical PDF" : "Diagnostic Image");
 
     try {
-      const response = await fetch(`http://localhost:5000/api/upload-report/${targetPhone}`, {
+      // ✨ UPDATED: Pointing to your live Render backend
+      const response = await fetch(`https://familysafe-xcoder.onrender.com/api/upload-report/${targetPhone}`, {
         method: 'POST',
         body: formData,
       });
@@ -33,16 +34,17 @@ export default function DoctorPanel({ memberData }) {
       const data = await response.json();
       
       if (data.success) {
-        alert("Medical Report Uploaded to Vault Successfully!");
-        window.location.reload(); 
+        alert("🛡️ Document secured in Cloud Vault successfully!");
+        // Note: The Dashboard's 3-second polling will automatically pick up the new report
       } else {
-        alert(`Server Error: ${data.message}`);
+        alert(`Vault Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Error connecting to medical server.");
+      alert("Connectivity Error: Cloud Vault is unreachable.");
     } finally {
       setIsUploading(false);
+      e.target.value = null; // Reset file input
     }
   };
 
@@ -80,7 +82,7 @@ export default function DoctorPanel({ memberData }) {
           <p className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest mb-6">Family Specialist</p>
           <div className="flex items-center gap-5 mb-8">
             <div className="w-20 h-20 rounded-3xl bg-slate-200 dark:bg-slate-800 overflow-hidden border-2 border-white dark:border-slate-700">
-               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=doctor" alt="Doctor" />
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=doctor" alt="Doctor" />
             </div>
             <div>
               <h3 className="text-xl font-black text-slate-800 dark:text-white">Dr. Arpit Sharma</h3>
@@ -141,7 +143,6 @@ export default function DoctorPanel({ memberData }) {
             {reports.length > 0 ? reports.map((report, index) => (
               <div key={index} className="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-4xl border border-slate-100 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:-translate-y-1 transition-all duration-300 group cursor-pointer" onClick={() => window.open(report.fileUrl, '_blank')}>
                  <div className="w-14 h-14 rounded-2xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                   {/* ✨ PDF vs IMAGE ICON LOGIC */}
                    {report.fileUrl.toLowerCase().endsWith('.pdf') ? (
                      <svg className="w-7 h-7 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -168,16 +169,8 @@ export default function DoctorPanel({ memberData }) {
                 <p className="text-slate-400 font-bold uppercase tracking-widest text-xs italic">Vault Empty: Scan and upload previous clinical documents</p>
               </div>
             )}
-
-            <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 p-6 rounded-4xl flex flex-col items-center justify-center text-center group hover:border-teal-400 transition-colors">
-               <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-3 group-hover:text-teal-500 transition-colors">
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-               </div>
-               <p className="text-xs font-black text-slate-400 uppercase tracking-tighter">Secure File Slot</p>
-            </div>
           </div>
         </div>
-
       </div>
     </div>
   );

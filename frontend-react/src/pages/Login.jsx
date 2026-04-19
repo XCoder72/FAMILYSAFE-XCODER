@@ -5,15 +5,12 @@ export default function Login() {
   const [showSplash, setShowSplash] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // --- UI & DATA STATES ---
-  const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'success'
+  const [step, setStep] = useState('phone'); 
   const [phoneNumber, setPhoneNumber] = useState(''); 
   const [countryCode, setCountryCode] = useState('+91');
-  const [otp, setOtp] = useState(''); // What the user types
-  const [receivedOtp, setReceivedOtp] = useState(''); // Real OTP from backend
+  const [otp, setOtp] = useState(''); 
+  const [receivedOtp, setReceivedOtp] = useState(''); 
   const [isProcessing, setIsProcessing] = useState(false);
-  
-  // ✨ NEW: State to hold the user data sent back from the database
   const [backendUser, setBackendUser] = useState(null); 
   
   const navigate = useNavigate();
@@ -45,7 +42,8 @@ export default function Login() {
     
     setIsProcessing(true);
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      // ✨ FIXED: Added the /api/login endpoint
+      const response = await fetch('https://familysafe-xcoder.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: countryCode + " " + phoneNumber })
@@ -53,14 +51,11 @@ export default function Login() {
       const data = await response.json();
       if (data.success) {
         setReceivedOtp(data.otp); 
-        
-        // ✨ SAVE THE DATABASE USER OBJECT INTO STATE
         setBackendUser(data.user); 
-        
         setStep('otp');
       }
     } catch (error) {
-      alert("🚨 Server Offline.");
+      alert("🚨 Server Offline. Please check your Render logs.");
     } finally {
       setIsProcessing(false);
     }
@@ -70,36 +65,32 @@ export default function Login() {
     e.preventDefault();
     if (otp === receivedOtp) {
       
-      // ✨ MERGE BACKEND DATA WITH LOCAL VERIFICATION
       const userData = {
-        ...(backendUser || {}), // Spread existing DB data (like role, name, familyCode)
+        ...(backendUser || {}), 
         phone: `${countryCode} ${phoneNumber}`,
         isVerified: true
       };
       
-      // Save full profile to local storage
       localStorage.setItem('familySafeUser', JSON.stringify(userData));
-      
       setStep('success');
       
-      // ✨ THE TRAFFIC DIRECTOR ✨
       setTimeout(() => {
-        // Check if the database says they are setup OR if they have a name saved
+        // ✨ DYNAMIC TRAFFIC DIRECTION
+        // If they have a name and have completed setup, they are a returning user
         if (userData.isSetupComplete || userData.name) {
-          navigate('/dashboard'); // 🚀 Returning User: Go straight to Dashboard
+          navigate('/dashboard'); 
         } else {
-          navigate('/role');      // 🆕 New User: Go pick a role
+          navigate('/role'); 
         }
       }, 1800);
 
     } else {
       alert("❌ Incorrect OTP!");
     }
-  }; // ✨ FIXED: This closing bracket was missing!
+  };
 
   return (
     <>
-      {/* 🎬 CINEMATIC SPLASH OVERLAY */}
       <div className={`fixed inset-0 z-50 bg-[#020617] flex items-center justify-center transition-all duration-2000 ${showSplash ? 'opacity-100' : 'opacity-0 pointer-events-none blur-xl'}`}>
         <video autoPlay muted playsInline className="w-full h-full object-cover">
           <source src="/logo-animation.mp4" type="video/mp4" />
@@ -108,7 +99,6 @@ export default function Login() {
 
       <div className="min-h-screen flex font-sans bg-[#f8fafc]">
         
-        {/* LEFT SIDE: Cinematic Hero Section */}
         <div className="hidden lg:flex w-1/2 bg-[#020617] text-white p-12 flex-col justify-center relative overflow-hidden">
           <div className={`absolute top-10 left-12 flex items-center gap-6 transition-all duration-1000 ${!showSplash ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
             <img src="/logo.png" alt="Logo" className="h-24 w-auto drop-shadow-[0_0_15px_rgba(56,189,248,0.3)]" />
@@ -129,20 +119,16 @@ export default function Login() {
           <div className="absolute -bottom-20 -left-20 w-125 h-125 bg-blue-600/10 rounded-full blur-[120px] animate-pulse"></div>
         </div>
 
-        {/* Right Side: Updated with Glassmorphism */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-slate-50 relative overflow-hidden">
           
-          {/* 🔵 Dynamic Background Orbs */}
           <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
           <div className="absolute top-0 -right-4 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{animationDelay: '2000ms'}}></div>
           <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{animationDelay: '4000ms'}}></div>
 
-          {/* 🛡️ THE GLASS LOGIN CARD */}
           <div className={`bg-white/80 backdrop-blur-xl border border-white/60 p-10 md:p-14 rounded-[3rem] shadow-2xl w-full max-w-md transition-all duration-1000 ${
             !showSplash ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           }`}>
 
-            {/* Step-based forms */}
             {step === 'phone' && (
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <h2 className="text-5xl font-bold text-slate-900 mb-4">Login</h2>

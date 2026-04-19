@@ -65,7 +65,7 @@ export default function MemberOverviewPanel({ memberData, isTestMode }) {
     
     setIsTriggering(true);
     try {
-      await fetch(`http://localhost:5000/api/simulate/${memberData.phone}`, {
+      await fetch(`https://familysafe-xcoder.onrender.com/api/simulate/${memberData.phone}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'SOS' })

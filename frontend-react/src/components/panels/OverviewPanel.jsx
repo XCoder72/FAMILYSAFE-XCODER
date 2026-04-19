@@ -13,7 +13,7 @@ export default function OverviewPanel({ memberData, isTestMode }) {
       const { familyCode } = JSON.parse(rawUser);
 
       try {
-        const res = await fetch(`http://localhost:5000/api/family-members/${familyCode}`);
+        const res = await fetch(`https://familysafe-xcoder.onrender.com/api/family-members/${familyCode}`);
         const data = await res.json();
         if (data.success) {
           setRealMembers(data.members); 
