@@ -3,7 +3,7 @@
 
 [![Team XCODER](https://img.shields.io/badge/Team-XCODER-blue?style=for-the-badge)](https://www.instagram.com/xcode_rdev/?__pwa=1#)
 [![App](https://img.shields.io/badge/familysafe-app-red?style=for-the-badge)](https://github.com/akkysERA)
-[![Status](https://img.shields.io/badge/Status-Beta-orange?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/Status-Beta-orange?style=for-the-badge)](https://github.com/XCoder72/FAMILYSAFE-XCODER)
 
 **FamilySafe** is a high-performance monitoring platform engineered to bridge the gap between wearable IoT data and active family care. Developed during **Hacksagon 2026 at ABV-IIITM Gwalior**, it synchronizes live biometric streams from smart devices into a centralized, end-to-end encrypted command center.
 
