@@ -17,7 +17,7 @@ const app = express();
 // 🛠️ DYNAMIC CORS SETUP
 const allowedOrigins = [
     "http://localhost:5173", 
-    "https://familysafe-frontend.vercel.app" // 👈 Update this after Vercel deployment
+    "https://familysafe-frontend.vercel.app" // 👈 Fixed: No trailing slash
 ];
 
 app.use(cors({
@@ -35,14 +35,14 @@ app.use(cors({
 
 app.use(express.json()); 
 
-// 🚀 HEALTH CHECK / HOME ROUTE
+// 🚀 HEALTH CHECK
 app.get('/', (req, res) => {
     res.status(200).send('🚀 FamilySafe Premium API is Live and Connected!');
 });
 
 const server = http.createServer(app);
 
-// 📡 SOCKET.IO OPTIMIZED FOR CLOUD
+// 📡 SOCKET.IO
 const io = new Server(server, {
     cors: { 
         origin: allowedOrigins,
@@ -68,58 +68,140 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 // ---------------------------------------------------------
-// 📑 ROUTES
+// 📑 ROUTES (Restored from your previous logic)
 // ---------------------------------------------------------
 
-// ✨ NEW: Update Admin/Member Profile Details (Used in AdminSetup.jsx)
+// 1. Login / Register
+app.post('/api/login', async (req, res) => {
+    try {
+        const { phone } = req.body;
+        if (!phone) return res.status(400).json({ success: false, message: "Phone is required" });
+        const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+        let user = await User.findOne({ phone });
+        if (!user) {
+            user = await User.create({ phone, role: 'Member', status: 'Online' });
+        }
+        res.json({ success: true, otp: generatedOtp, user });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// 2. Profile Update (Admin/Member Setup)
 app.put('/api/update-profile', async (req, res) => {
     try {
-        const { loginPhone, name, email, emergencyPhone, gender, address } = req.body;
-
+        const { loginPhone, name, email, emergencyPhone, gender, address, role } = req.body;
         const updatedUser = await User.findOneAndUpdate(
             { phone: loginPhone },
-            { 
-                $set: { 
-                    name, 
-                    email, 
-                    emergencyPhone, 
-                    gender, 
-                    address,
-                    isSetupComplete: true 
-                } 
-            },
+            { $set: { name, email, emergencyPhone, gender, address, role, isSetupComplete: true } },
             { new: true }
         );
-
         if (!updatedUser) return res.status(404).json({ success: false, message: "User not found" });
-
         res.json({ success: true, user: updatedUser });
     } catch (error) {
-        console.error("Profile Update Error:", error);
         res.status(500).json({ success: false, message: "Database Error" });
     }
 });
 
-// [ ... KEEP YOUR LOGIN, CREATE-NETWORK, JOIN-NETWORK, UPLOAD-REPORT, SIMULATE, & FETCH ROUTES HERE ... ]
+// 3. Create Network
+app.post('/api/create-network', async (req, res) => {
+    try {
+        const { phone } = req.body;
+        const newFamilyCode = "SAFE-" + Math.floor(1000 + Math.random() * 9000); 
+        const updatedUser = await User.findOneAndUpdate(
+            { phone },
+            { $set: { familyCode: newFamilyCode, role: 'Admin' } },
+            { new: true }
+        );
+        res.status(200).json({ success: true, familyCode: newFamilyCode, user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
 
+// 4. Join Network
+app.post('/api/join-network', async (req, res) => {
+    try {
+        const { phone, familyCode } = req.body;
+        const adminExists = await User.findOne({ familyCode, role: 'Admin' });
+        if (!adminExists) return res.status(404).json({ success: false, message: "Invalid Invite Code!" });
+        const updatedUser = await User.findOneAndUpdate(
+            { phone }, 
+            { $set: { role: 'Member', familyCode, isSetupComplete: false } }, 
+            { new: true }
+        );
+        res.json({ success: true, user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to join" });
+    }
+});
+
+// 5. Fetch Family Members
+app.get('/api/family-members/:familyCode', async (req, res) => {
+    try {
+        const { familyCode } = req.params;
+        const members = await User.find({ familyCode });
+        res.json({ success: true, members });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error fetching family" });
+    }
+});
+
+// 6. Simulate Emergency
+app.put('/api/simulate/:phone', async (req, res) => {
+    try {
+        const { type } = req.body;
+        const { phone } = req.params;
+        const updatedUser = await runScenario(phone, type);
+        if (updatedUser) {
+            if (type === 'DISCONNECT') {
+                io.emit('hardware_status', { phone, status: 'Offline' });
+            }
+            res.json({ success: true, user: updatedUser });
+        } else {
+            res.status(404).json({ success: false, message: "User not found" });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// 7. Upload Report
+app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) => {
+    try {
+        const { phone } = req.params;
+        const newReport = {
+            reportName: req.body.reportName || "New Report",
+            doctorName: req.body.doctorName || "General Physician",
+            category: req.body.category || "Consultation",
+            fileUrl: req.file.path, 
+            date: new Date()
+        };
+        const user = await User.findOneAndUpdate(
+            { phone: phone },
+            { $push: { medicalReports: newReport } },
+            { new: true } 
+        );
+        res.json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Upload Error" });
+    }
+});
 
 // ---------------------------------------------------------
-// 📡 SERVER STARTUP (Render Optimized)
+// 📡 SERVER STARTUP
 // ---------------------------------------------------------
 const startApp = async () => {
     try {
         const MONGO_URI = process.env.MONGO_URI; 
-        
         if (!MONGO_URI) {
             console.error("❌ ERROR: MONGO_URI missing!");
             process.exit(1);
         }
 
-        // Connection with pooling for better performance
         await mongoose.connect(MONGO_URI);
         console.log('🟢 MongoDB Cloud Connected Successfully!');
 
-        // Initialize Biometric Engine
         startGeneralSimulation(); 
 
         const PORT = process.env.PORT || 5000;
@@ -128,12 +210,8 @@ const startApp = async () => {
         });
 
         io.on('connection', (socket) => {
-            console.log('📡 New Client Connected to Socket');
             socket.on('send_message', (data) => {
                 socket.broadcast.emit('receive_message', data); 
-            });
-            socket.on('disconnect', () => {
-                console.log('🔌 Client Disconnected');
             });
         });
 
