@@ -17,7 +17,7 @@ const app = express();
 // 🛠️ DYNAMIC CORS SETUP
 const allowedOrigins = [
     "http://localhost:5173", 
-    "https://familysafe-xcoder.vercel.app" // 👈 Update this after Vercel deployment
+    "https://familysafe-frontend.vercel.app/" // 👈 Update this after Vercel deployment
 ];
 
 app.use(cors({

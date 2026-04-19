@@ -4,9 +4,15 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  
-  // ✨ ADD THIS RESOLVE BLOCK ✨
-  resolve: {
-    dedupe: ['react', 'react-dom'],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor'; // 👈 Puts all libraries in a separate 'vendor' file
+          }
+        },
+      },
+    },
   },
 })
