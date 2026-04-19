@@ -14,9 +14,15 @@ const { startGeneralSimulation, runScenario } = require('./simulation/index');
 
 const app = express();
 
-// 🛠️ MIDDLEWARE
+// Add this above your login route
+app.get('/', (req, res) => {
+    res.send('🚀 FamilySafe Premium API is Live and Connected!');
+});
+
+// 🛠️ UPDATED MIDDLEWARE FOR DEPLOYMENT
 app.use(cors({
-    origin: "http://localhost:5173",
+    // 👈 Replace with your actual Vercel URL once you deploy the frontend
+    origin: ["http://localhost:5173", "https://your-frontend-name.vercel.app"], 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -25,10 +31,13 @@ app.use(express.json());
 
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] }
+    cors: { 
+        origin: ["http://localhost:5173", "https://your-frontend-name.vercel.app"], 
+        methods: ["GET", "POST"] 
+    }
 });
 
-// 🛡️ CLOUDINARY SETUP
+// 🛡️ CLOUDINARY SETUP (Stays the same)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_KEY,
@@ -44,133 +53,29 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-// ---------------------------------------------------------
-// 📑 ROUTES
-// ---------------------------------------------------------
-
-// 1. Login / Register
-app.post('/api/login', async (req, res) => {
-    try {
-        const { phone } = req.body;
-        if (!phone) return res.status(400).json({ success: false, message: "Phone is required" });
-        const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-        let user = await User.findOne({ phone });
-        if (!user) {
-            user = await User.create({ phone, role: 'Member', status: 'Online' });
-        }
-        res.json({ success: true, otp: generatedOtp, user });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Internal Server Error" });
-    }
-});
-
-// 2. Create Network
-app.post('/api/create-network', async (req, res) => {
-  try {
-    const { phone } = req.body;
-    const newFamilyCode = "SAFE-" + Math.floor(1000 + Math.random() * 9000); 
-    const updatedUser = await User.findOneAndUpdate(
-      { phone },
-      { $set: { familyCode: newFamilyCode, role: 'Admin' } },
-      { returnDocument: 'after' }
-    );
-    res.status(200).json({ success: true, familyCode: newFamilyCode, user: updatedUser });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-// 3. Join Network
-app.post('/api/join-network', async (req, res) => {
-    try {
-        const { phone, familyCode } = req.body;
-        const adminExists = await User.findOne({ familyCode, role: 'Admin' });
-        if (!adminExists) return res.status(404).json({ success: false, message: "Invalid Invite Code!" });
-        const updatedUser = await User.findOneAndUpdate(
-            { phone }, 
-            { $set: { role: 'Member', familyCode, isSetupComplete: false } }, 
-            { returnDocument: 'after' }
-        );
-        res.json({ success: true, user: updatedUser });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to join" });
-    }
-});
-
-// 4. Upload Medical Report
-app.post('/api/upload-report/:phone', upload.single('report'), async (req, res) => {
-  try {
-    const { phone } = req.params;
-    const { reportName, doctorName, category } = req.body;
-    const newReport = {
-      reportName: reportName || "New Report",
-      doctorName: doctorName || "General Physician",
-      category: category || "Consultation",
-      fileUrl: req.file.path, 
-      date: new Date()
-    };
-    const user = await User.findOneAndUpdate(
-      { phone: phone },
-      { $push: { medicalReports: newReport } },
-      { returnDocument: 'after', runValidators: true } 
-    );
-    res.json({ success: true, user });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error during upload" });
-  }
-});
-
-// 5. Emergency & Disconnect Simulation Trigger
-app.put('/api/simulate/:phone', async (req, res) => {
-    try {
-        const { type } = req.body; // 'FALL', 'SOS', or 'DISCONNECT'
-        const { phone } = req.params;
-        
-        // ✨ runScenario handles the database update logic
-        const updatedUser = await runScenario(phone, type);
-        
-        if (updatedUser) {
-            // If it's a disconnect, broadcast to sockets that hardware is down
-            if (type === 'DISCONNECT') {
-                io.emit('hardware_status', { phone, status: 'Offline' });
-            }
-            res.json({ success: true, user: updatedUser });
-        } else {
-            res.status(404).json({ success: false, message: "User not found" });
-        }
-    } catch (err) {
-        res.status(500).json({ success: false, error: err.message });
-    }
-});
-
-// 6. Fetch Family Members
-app.get('/api/family-members/:familyCode', async (req, res) => {
-    try {
-        const { familyCode } = req.params;
-        const members = await User.find({ familyCode });
-        res.json({ success: true, members });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Error fetching family" });
-    }
-});
+// [ ... KEEP ALL YOUR ROUTES (1 to 6) EXACTLY AS THEY ARE ... ]
 
 // ---------------------------------------------------------
-// 📡 SERVER STARTUP (Async Wrapper Fixes the SyntaxError)
+// 📡 SERVER STARTUP (Optimized for Render)
 // ---------------------------------------------------------
 const startApp = async () => {
     try {
-        const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/familysafe';
+        // 👈 Ensure your MongoDB Atlas string is in the .env file as MONGO_URI
+        const MONGO_URI = process.env.MONGO_URI; 
         
-        // Wait for DB before starting anything else
-        await mongoose.connect(MONGO_URI);
-        console.log('🟢 MongoDB Connected Successfully!');
+        if (!MONGO_URI) {
+            throw new Error("MONGO_URI is missing in Environment Variables!");
+        }
 
-        // Start background simulation
+        await mongoose.connect(MONGO_URI);
+        console.log('🟢 MongoDB Cloud Connected Successfully!');
+
         startGeneralSimulation(); 
 
+        // 👈 Render provides the PORT automatically
         const PORT = process.env.PORT || 5000;
         server.listen(PORT, () => {
-            console.log(`🚀 Premium Backend Engine running on http://localhost:${PORT}`);
+            console.log(`🚀 System Live on Port: ${PORT}`);
         });
 
         io.on('connection', (socket) => {
@@ -180,7 +85,7 @@ const startApp = async () => {
         });
 
     } catch (error) {
-        console.error('🔴 Critical Startup Error:', error);
+        console.error('🔴 Startup Error:', error);
         process.exit(1);
     }
 };
